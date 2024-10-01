@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="css.css">
+    <title>Sign Up</title>
+    <style>
+        /* Inline CSS for demonstration; you can keep it in your CSS file */
+        container {
+            width: 80%;
+            margin: auto;
+            overflow: hidden;
+        }
+
+        header {
+            background: #333;
+            color: #fff;
+            padding: 20px 0;
+            text-align: center;
+        }
+
+        main {
+            padding: 20px;
+            background: #fff;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            margin: 20px 0;
+        }
+
+        signup-form h2 {
+            font-size: 2em;
+            margin-bottom: 20px;
+        }
+
+        signup-form form {
+            display: flex;
+            flex-direction: column;
+        }
+
+        signup-form label {
+            margin: 10px 0 5px;
+        }
+
+        signup-form input[type="text"],
+        signup-form input[type="email"] {
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+
+        gender-options {
+            display: flex;
+            align-items: center;
+            margin: 10px 0;
+        }
+
+        gender-options input[type="checkbox"] {
+            margin-right: 10px;
+        }
+
+        checkbox-container {
+            margin: 10px 0;
+        }
+
+        checkbox-container input[type="checkbox"] {
+            margin-right: 10px;
+        }
+
+        signup-form button {
+            padding: 10px;
+            background-color: #333;
+            color: #fff;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 1em;
+            margin-top: 10px;
+        }
+
+        signup-form button:hover {
+            background-color: #555;
+        }
+
+        signup-form a {
+            color: #333;
+            text-decoration: none;
+        }
+
+        signup-form a:hover {
+            text-decoration: underline;
+        }
+
+        footer {
+            text-align: center;
+            padding: 10px;
+            background: #333;
+            color: #fff;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Please sign up below to create an account!</h1>
+        </header>
+        
+        <main>
+            <section class="signup-form">
+                <h2>Sign Up Form</h2>
+                <form id="signup-form" action="javascript:void(0);"> <!-- Prevent default form submission -->
+                    <fieldset>
+                        <legend>User Information:</legend>
+                        <label for="fname">First name:</label>
+                        <input type="text" id="fname" name="fname" required>
+                        
+                        <label for="lname">Last name:</label>
+                        <input type="text" id="lname" name="lname" required>
+                        
+                        <label for="email">Email:</label>
+                        <input type="email" id="email" name="email" required>
+                        
+                        <div class="gender-options">
+                            <input type="checkbox" id="female" name="gender" value="Female">
+                            <label for="female">Female</label>
+                            
+                            <input type="checkbox" id="male" name="gender" value="Male">
+                            <label for="male">Male</label>
+                        </div>
+                        
+                        <div class="checkbox-container">
+                            <input type="checkbox" id="terms" name="terms" required>
+                            <label for="terms">I agree to the terms and conditions</label>
+                        </div>
+                        
+                        <button type="submit">Register</button>
+                    </fieldset>
+                </form>
+                
+                <h3>Already have an account? <a href="file:///C:/Users/DELL/OneDrive/Documents/PJ%20Thwalas/index.html">Login</a></h3>
+            </section>
+        </main>
+
+        <footer>
+            <p>&copy; 2008 PJ Thwalas Lux Tours. All rights reserved.</p>
+        </footer>
+    </div>
+
+    <script>
+        document.getElementById('signup-form').addEventListener('submit', function(event) {
+            event.preventDefault(); // Prevent the default form submission
+
+            // Example: You can add additional form validation or AJAX requests here
+
+            // Redirect to the desired page after successful registration
+            window.location.href = 'file:///C:/Users/DELL/OneDrive/Documents/PJ%20Thwalas/Buses.html'; // Replace with your actual target URL
+        });
+    </script>
+</body>
+</html>

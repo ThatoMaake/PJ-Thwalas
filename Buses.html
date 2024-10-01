@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="css.css">
+    <title>Available Buses</title>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Hello, <span id="user-name">User</span>!</h1>
+            <p>Let's book you a safe bus trip.</p>
+        </header>
+        
+        <main>
+            <section id="bus-availability">
+                <!-- Bus info will be injected here by JavaScript -->
+            </section>
+
+            <section class="cart-summary" id="cart-summary">
+                <h3>Booking Cart</h3>
+                <ul id="cart-items"></ul>
+                <p id="total-price">Total: R0</p>
+                <button id="proceed-to-payment">Proceed to Payment</button>
+            </section>
+
+            <section class="payment-form" id="payment-form">
+                <h3>Payment Details</h3>
+                <form id="payment-form-content">
+                    <label for="card-number">Card Number:</label>
+                    <input type="text" id="card-number" name="card-number" required>
+                    
+                    <label for="expiry-date">Expiry Date:</label>
+                    <input type="text" id="expiry-date" name="expiry-date" required>
+                    
+                    <label for="cvv">CVV:</label>
+                    <input type="text" id="cvv" name="cvv" required>
+                    
+                    <button type="submit">Pay Now</button>
+                </form>
+            </section>
+        </main>
+
+        <footer>
+            <p>&copy; 2008 PJ Thwalas Lux Tours. All rights reserved.</p>
+        </footer>
+    </div>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            // Retrieve the user’s first name from localStorage (or session/cookies)
+            const userName = localStorage.getItem('FirstName') || 'Guest';
+            document.getElementById("user-name").textContent = userName;
+
+            // Sample bus data with a fixed price
+            const buses = [
+                {
+                    route: "Malamulele-JHB",
+                    time: "07:00 AM",
+                    price: 350
+                },
+                {
+                    route: "Giyani-Pretoria",
+                    time: "08:00 AM",
+                    price: 350
+                },
+                // Additional buses outside of the desired time range
+                {
+                    route: "Malamulele-JHB",
+                    time: "09:00 AM",
+                    price: 350
+                },
+                {
+                    route: "Giyani-Pretoria",
+                    time: "06:00 AM",
+                    price: 350
+                }
+            ];
+
+            const busSection = document.getElementById("bus-availability");
+            const cartItems = document.getElementById("cart-items");
+            const totalPriceElem = document.getElementById("total-price");
+            const cartSummary = document.getElementById("cart-summary");
+            const paymentForm = document.getElementById("payment-form");
+
+            let total = 0;
+            let selectedBuses = [];
+
+            function updateCart() {
+                cartItems.innerHTML = ''; // Clear previous cart items
+                total = 0;
+                selectedBuses.forEach((bus, index) => {
+                    const listItem = document.createElement("li");
+                    listItem.textContent = `${bus.route} - ${bus.time} - R${bus.price}`;
+                    cartItems.appendChild(listItem);
+                    total += bus.price;
+                });
+                totalPriceElem.textContent = `Total: R${total}`;
+            }
+
+            function handlePayment() {
+                paymentForm.style.display = 'block';
+            }
+
+            function handleFormSubmit(event) {
+                event.preventDefault();
+                alert('Payment successful!');
+                // Reset the form and cart after payment
+                document.getElementById("payment-form-content").reset();
+                paymentForm.style.display = 'none';
+                cartSummary.style.display = 'none';
+                selectedBuses = [];
+                total = 0;
+                updateCart();
+            }
+
+            function addBusToCart(index) {
+                const bus = buses[index];
+                // Check if the bus is already in the cart
+                if (!selectedBuses.some(b => b.route === bus.route && b.time === bus.time)) {
+                    selectedBuses.push(bus);
+                    updateCart();
+                }
+            }
+
+            // Filter buses within the 7:00 AM to 8:00 AM time window
+            const filteredBuses = buses.filter(bus => {
+                const [hour, minute] = bus.time.split(':');
+                const amPm = bus.time.split(' ')[1];
+                const busTime = parseInt(hour) + (amPm === 'PM' ? 12 : 0);
+                return busTime >= 7 && busTime <= 8;
+            });
+
+            if (filteredBuses.length > 0) {
+                filteredBuses.forEach((bus, index) => {
+                    const busDiv = document.createElement("div");
+                    busDiv.className = "bus-info";
+                    busDiv.innerHTML = `
+                        <h3>Bus Route: ${bus.route}</h3>
+                        <p>Time: ${bus.time}</p>
+                        <p>Price: R${bus.price}</p>
+                        <input type="checkbox" id="bus-${index}" name="bus-${index}" value="${bus.price}">
+                        <label for="bus-${index}">Select this bus</label>
+                        <button onclick="addBusToCart(${index})">Add to Cart</button>
+                    `;
+                    busSection.appendChild(busDiv);
+                });
+                document.getElementById("proceed-to-payment").addEventListener('click', handlePayment);
+                document.getElementById("payment-form-content").addEventListener('submit', handleFormSubmit);
+            } else {
+                busSection.innerHTML = '<p class="no-buses">There are no buses available between 7:00 AM and 8:00 AM.</p>';
+            }
+        });
+    </script>
+</body>
+</html>
+
+
